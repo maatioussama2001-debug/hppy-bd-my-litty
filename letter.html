@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinity Love For Litissia 🍓</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --strawberry-pink: #ffafcc;
+    --soft-cream: #fff1f2;
+    --gold-glow: #ffe5ec;
+    --text-color: #4a3035;
+    --berry-red: #ff4d6d;
+    --neon-accent: #ff8fa3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 30%, #ffb3c1 70%, #ff8fa3 100%);
+    background-size: 300% 300%;
+    animation: gradientShift 15s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    color: var(--text-color);
+    overflow-x: hidden;
+    position: relative;
+    perspective: 1000px;
+    cursor: none; /* إخفاء الماوس الأساسي */
+}
+
+.custom-cursor {
+    position: absolute; /* تحويلها إلى absolute لكي تتحرك مع النزول لأسفل الصفحة بحرية */
+    top: 0;
+    left: 0;
+    font-size: 28px;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-10px, -10px);
+    user-select: none;
+}
+
+.trail-particle {
+    position: absolute; /* تحويلها إلى absolute لتتبع الصفحة */
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 14px;
+    user-select: none;
+    animation: fadeAndMove 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes fadeAndMove {
+    0% {
+        transform: translate(-50%, -50%) scale(1) translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.4) translateY(30px) rotate(15deg);
+        opacity: 0;
+    }
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#space-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.start-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #ffc2d1 0%, #ffe5ec 100%);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.bg-deco {
+    position: absolute;
+    font-size: 2.5rem;
+    pointer-events: none;
+    opacity: 0.75;
+    animation: floatDecor 5s ease-in-out infinite alternate;
+}
+.dec-1 { top: 15%; left: 10%; font-size: 3.5rem; animation-delay: 0s; }
+.dec-2 { top: 20%; right: 15%; font-size: 3.8rem; animation-delay: 1s; }
+.dec-3 { bottom: 15%; left: 15%; font-size: 3.5rem; animation-delay: 2s; }
+.dec-4 { bottom: 25%; right: 10%; font-size: 4rem; animation-delay: 1.5s; }
+.dec-5 { top: 45%; left: 45%; font-size: 2.2rem; animation: floatDecor 3s ease-in-out infinite alternate; opacity: 0.5; }
+
+@keyframes floatDecor {
+    0% { transform: translateY(0) scale(1) rotate(-10deg); filter: drop-shadow(0 5px 5px rgba(255,77,109,0.2)); }
+    100% { transform: translateY(-25px) scale(1.08) rotate(10deg); filter: drop-shadow(0 15px 20px rgba(255,77,109,0.3)); }
+}
+
+.start-btn {
+    padding: 18px 50px;
+    background: linear-gradient(135deg, #ff758f, #ff4d6d);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.35rem;
+    font-weight: 600;
+    font-family: 'Fredoka', sans-serif;
+    box-shadow: 0 8px 0px #c9184a, 0 15px 30px rgba(201, 24, 74, 0.25);
+    transition: all 0.2s ease;
+    z-index: 105;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer; /* إرجاع الماوس الطبيعي عند ملامسة الزر لسهولة الضغط */
+}
+
+.start-btn:hover {
+    transform: translateY(2px);
+    box-shadow: 0 6px 0px #c9184a, 0 10px 20px rgba(201, 24, 74, 0.25);
+}
+
+.start-btn:active {
+    transform: translateY(8px);
+    box-shadow: 0 0px 0px #c9184a, 0 5px 10px rgba(201, 24, 74, 0.1);
+}
+
+.card {
+    max-width: 750px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 55px 40px;
+    border-radius: 40px;
+    position: relative;
+    display: none;
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 20px 50px rgba(223, 114, 137, 0.25);
+    z-index: 10;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+}
+
+.progress-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 6px;
+    background: rgba(0,0,0,0.03);
+    border-radius: 40px 40px 0 0;
+    overflow: hidden;
+}
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff758f, #ff4d6d);
+    box-shadow: 0 0 10px rgba(255, 77, 109, 0.4);
+    transition: width 0.1s linear;
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2.6rem;
+    margin-bottom: 35px;
+    color: var(--berry-red);
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+}
+
+#text {
+    font-size: 1.15rem;
+    line-height: 2;
+    white-space: pre-line;
+    min-height: 350px;
+    color: #5c3d42;
+    font-weight: 600;
+}
+
+.cursor {
+    font-weight: bold;
+    color: var(--berry-red);
+    animation: blink 0.6s infinite;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+.btn {
+    display: block;
+    width: max-content;
+    margin: 45px auto 0;
+    padding: 16px 50px;
+    background: linear-gradient(135deg, #ff758f, #ff4d6d);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 0px #c9184a, 0 15px 25px rgba(201, 24, 74, 0.25);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease, opacity 0.4s ease, transform 0.4s ease;
+    position: relative;
+    top: 0;
+    cursor: pointer; /* إرجاع الماوس الطبيعي عند ملامسة الزر لسهولة الضغط */
+}
+
+.btn.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.btn.show:hover {
+    transform: translateY(2px);
+    box-shadow: 0 6px 0px #c9184a, 0 10px 20px rgba(201, 24, 74, 0.25);
+}
+
+.btn.show:active {
+    top: 8px;
+    box-shadow: 0 0px 0px #c9184a, 0 5px 10px rgba(201, 24, 74, 0.1);
+}
+
+.sticker {
+    position: absolute;
+    pointer-events: none;
+    z-index: 15;
+    animation: floatSticker 6s ease-in-out infinite alternate;
+    filter: drop-shadow(0 5px 10px rgba(223,114,137,0.15));
+}
+
+.stk-1 { top: -40px; left: -20px; font-size: 3.8rem; }
+.stk-2 { bottom: -30px; right: -20px; font-size: 3.8rem; animation-delay: 2s; }
+.stk-3 { top: 35%; right: -45px; font-size: 3.2rem; animation-delay: 1s; }
+.stk-4 { bottom: 35%; left: -45px; font-size: 3.2rem; animation-delay: 3s; }
+
+@keyframes floatSticker {
+    0% { transform: translateY(0) rotate(-6deg); }
+    100% { transform: translateY(-15px) rotate(6deg); }
+}
+</style>
+</head>
+<body>
+
+<div class="custom-cursor" id="customCursor">🍓</div>
+
+<canvas id="space-particles"></canvas>
+
+<div class="start-overlay" id="startOverlay">
+    <div class="bg-deco dec-1">🍓✨</div>
+    <div class="bg-deco dec-2">☁️🌸</div>
+    <div class="bg-deco dec-3">🧸🎀</div>
+    <div class="bg-deco dec-4">🍒💝</div>
+    <div class="bg-deco dec-5">🤍</div>
+    
+    <button class="start-btn" onclick="startLetter()">Read my heart 🍓</button>
+</div>
+
+<div class="card" id="mainCard">
+    <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+    <div class="sticker stk-1">🍓✨</div>
+    <div class="sticker stk-2">🧸🎈</div>
+    <div class="sticker stk-3">☁️🌸</div>
+    <div class="sticker stk-4">🍒💝</div>
+
+    <h1 id="title">Dear my Litissia 🍒</h1>
+    <div id="text"></div>
+    
+    <a href="love-pixel.html" class="btn" id="loveBtn">❤️ I Love You To Infinity ❤️</a>
+</div>
+
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mp3">
+</audio>
+
+<script>
+const customCursor = document.getElementById('customCursor');
+const trailEmojis = ["💖", "✨", "🌸", "🍓", "🤍"];
+
+// إصلاح حركة الفأرة المخصصة لتعمل مع الطول الكامل للصفحة عند السكرول (e.pageX / e.pageY)
+window.addEventListener('mousemove', (e) => {
+    customCursor.style.left = e.pageX + 'px';
+    customCursor.style.top = e.pageY + 'px';
+    
+    if (Math.random() > 0.6) {
+        createParticleTrail(e.pageX, e.pageY);
+    }
+});
+
+window.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        // تعويض قيمة السكرول للموبايل أيضاً
+        const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        
+        customCursor.style.left = (touch.clientX + scrollX) + 'px';
+        customCursor.style.top = (touch.clientY + scrollY) + 'px';
+        createParticleTrail(touch.clientX + scrollX, touch.clientY + scrollY);
+    }
+});
+
+function createParticleTrail(x, y) {
+    const p = document.createElement('div');
+    p.className = 'trail-particle';
+    p.innerText = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
+    
+    const offsetX = (Math.random() - 0.5) * 15;
+    const offsetY = Math.random() * 15 + 10;
+    
+    p.style.left = (x + offsetX) + 'px';
+    p.style.top = (y + offsetY) + 'px';
+    
+    document.body.appendChild(p);
+    
+    setTimeout(() => {
+        p.remove();
+    }, 600);
+}
+
+const card = document.getElementById('mainCard');
+let isTypingFinished = false;
+
+document.addEventListener('mousemove', (e) => {
+    if(card.style.display === 'block') {
+        const xAxis = (window.innerWidth / 2 - e.clientX) / 45;
+        const yAxis = (window.innerHeight / 2 - e.clientY) / 45;
+        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    }
+});
+
+document.addEventListener('mouseleave', () => {
+    card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+});
+
+const keySounds = [
+    new Audio("https://www.soundjay.com/communication/sounds/typewriter-key-1.mp3"),
+    new Audio("https://www.soundjay.com/communication/sounds/typewriter-key-2.mp3")
+];
+const spaceSound = new Audio("https://www.soundjay.com/communication/sounds/typewriter-key-3.mp3");
+const enterSound = new Audio("https://www.soundjay.com/communication/sounds/typewriter-return-1.mp3");
+
+keySounds.forEach(s => s.volume = 0.4);
+spaceSound.volume = 0.45;
+enterSound.volume = 0.5;
+
+let soundCounter = 0;
+function playAdvancedSound(char) {
+    if (char === " ") {
+        spaceSound.currentTime = 0;
+        spaceSound.play().catch(err => console.log("Audio play blocked:", err));
+    } else if (char === "\n") {
+        enterSound.currentTime = 0;
+        enterSound.play().catch(err => console.log("Audio play blocked:", err));
+    } else {
+        keySounds[soundCounter].currentTime = 0;
+        keySounds[soundCounter].play().catch(err => console.log("Audio play blocked:", err));
+        soundCounter = (soundCounter + 1) % keySounds.length;
+    }
+}
+
+const message = `
+Happy Birthday, Litissia 💜
+
+I just wanted you to know how much you mean to me.
+
+mn nhar 3rftk  my life has been brighter because of you.
+
+Your smile, your voice, your kindness and the way you make me feel the way you make me happy the love u give it to me n3ch9k...
+
+Everything about you is special.
+
+Even when we are far apart, you are always close to my heart.
+
+Thank you for every moment, every laugh and every memory.
+
+I hope this birthday brings you all the happiness you deserve.
+
+And I will be part of many more birthdays with you. till i die
+
+ntmnalk everythink happy fdnya cuz mkch bnadm ystahl ykon happy 9adk u desarve everything happy nd perfect in this life
+
+and i promis you nh99lk ay haja tatmnayha otkhlik happy fdnua 3iniya nmdhomlk ndahi bro7i for u ya ro7i ya hyati ya 3iniya ya 9lbi y my life u my everything
+
+i will be everything for u rajlk ur love ur friend ur father sanad ta hyatk ay haja for hyati kml lik ana ta3k kaml
+
+I love you ❤️
+n3ch9k
+Forever,
+oussama
+`;
+
+let currentIndex = 0;
+
+function startLetter() {
+    keySounds.forEach(s => { s.play().then(() => { s.pause(); s.currentTime = 0; }).catch(()=>{}); });
+    spaceSound.play().then(() => { spaceSound.pause(); spaceSound.currentTime = 0; }).catch(()=>{});
+    enterSound.play().then(() => { enterSound.pause(); enterSound.currentTime = 0; }).catch(()=>{});
+
+    document.getElementById("startOverlay").style.opacity = "0";
+    document.getElementById("startOverlay").style.transform = "scale(1.05)";
+    
+    setTimeout(() => {
+        if(document.getElementById("startOverlay")) {
+            document.getElementById("startOverlay").remove();
+        }
+        card.style.display = "block";
+        
+        const music = document.getElementById("bgMusic");
+        music.volume = 0.25;
+        music.play().catch(() => {});
+        
+        typeWriter();
+    }, 700);
+}
+
+function typeWriter() {
+    if (currentIndex < message.length) {
+        const char = message.charAt(currentIndex);
+        
+        document.getElementById("text").innerHTML =
+            message.substring(0, currentIndex + 1) + "<span class='cursor'>|</span>";
+
+        playAdvancedSound(char);
+
+        const progress = ((currentIndex + 1) / message.length) * 100;
+        document.getElementById("progressBar").style.width = `${progress}%`;
+
+        // النزول التلقائي السلس والخفيف مع الكتابة
+        window.scrollTo(0, document.body.scrollHeight);
+
+        currentIndex++;
+        setTimeout(typeWriter, 65);
+    } else {
+        document.getElementById("text").innerHTML = message;
+        document.getElementById("loveBtn").classList.add("show");
+        isTypingFinished = true;
+        triggerHyperExplosion();
+    }
+}
+
+const canvas = document.getElementById('space-particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+const pastelElements = ["☁️", "🍓", "🌸", "🤍", "🍒", "🎀"];
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height + canvas.height;
+        this.size = Math.random() * 2.2 + 1;
+        this.speed = Math.random() * 0.8 + 0.4;
+        this.alpha = Math.random() * 0.5 + 0.3;
+        this.isSticker = Math.random() > 0.6;
+        this.emoji = pastelElements[Math.floor(Math.random() * pastelElements.length)];
+    }
+    update() {
+        this.y -= this.speed;
+        if (this.y < -30) {
+            this.y = canvas.height + 30;
+            this.x = Math.random() * canvas.width;
+        }
+    }
+    draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        if(this.isSticker) {
+            ctx.font = `${this.size * 9}px Arial`;
+            ctx.fillText(this.emoji, this.x, this.y);
+        } else {
+            ctx.fillStyle = '#ffb3c1';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size * 1.5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.restore();
+    }
+}
+
+for(let i=0; i<55; i++) { particles.push(new Particle()); }
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+function triggerHyperExplosion() {
+    const explosionElements = ["🍓", "☁️", "🍒", "💖", "🌸", "🎀", "🤍"];
+    for (let x = 0; x < 65; x++) {
+        const item = document.createElement("div");
+        item.innerHTML = explosionElements[Math.floor(Math.random() * explosionElements.length)];
+        item.style.position = "fixed";
+        item.style.left = "50%";
+        item.style.top = "75%";
+        item.style.fontSize = (22 + Math.random() * 24) + "px";
+        item.style.pointerEvents = "none";
+        item.style.zIndex = "30";
+        item.style.filter = "drop-shadow(0 5px 10px rgba(255,77,109,0.25))";
+        document.body.appendChild(item);
+
+        item.animate([
+            { transform: "translate(0,0) scale(1)", opacity: 1 },
+            {
+                transform: `translate(${Math.random() * 1000 - 500}px, ${Math.random() * -850}px) scale(1.6) rotate(${Math.random() * 360}deg)`,
+                opacity: 0
+            }
+        ], { duration: 2800, easing: 'cubic-bezier(0.1, 0.8, 0.2, 1)' });
+
+        setTimeout(() => item.remove(), 2800);
+    }
+}
+</script>
+</body>
+</html>

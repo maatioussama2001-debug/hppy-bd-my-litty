@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic Love - Litissia الملكة 🌌</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=700;900&family=Fredoka:wght=600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --space-deep: #0a0314;
+    --gold-royal: #ffd700;
+    --gold-glow: #ffb703;
+    --cosmic-pink: #ff8fa3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--space-deep);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Hide standard cursor to reveal the cosmic sparkle */
+    cursor: none; 
+}
+
+/* 🌌 COSMIC CUSTOM CURSOR & STARDUST TRAIL */
+.cosmic-cursor {
+    position: fixed;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+    transition: transform 0.05s ease-out;
+}
+
+.cosmic-cursor svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 8px var(--gold-royal)) drop-shadow(0 0 15px var(--cosmic-pink));
+    animation: rotateSparkle 6s linear infinite;
+}
+
+.stardust-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+}
+
+@keyframes rotateSparkle {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.game-ui {
+    position: absolute;
+    top: 40px;
+    z-index: 10;
+    width: 100%;
+    text-align: center;
+    pointer-events: none;
+    font-family: 'Fredoka', sans-serif;
+    transition: opacity 1s ease;
+}
+
+.game-ui.fade-out {
+    opacity: 0;
+}
+
+.instruction {
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 0 15px var(--gold-glow);
+    animation: pulseHint 2s ease-in-out infinite alternate;
+}
+
+.progress-bar {
+    width: 250px;
+    height: 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    margin: 15px auto 0;
+    overflow: hidden;
+    border: 1px solid rgba(255,215,0,0.3);
+    box-shadow: 0 0 10px rgba(255,215,0,0.1);
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-royal), #ff4d6d);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 12px var(--gold-royal);
+}
+
+@keyframes pulseHint {
+    0% { transform: scale(0.96); opacity: 0.8; }
+    100% { transform: scale(1.04); opacity: 1; }
+}
+
+.victory-card {
+    position: absolute;
+    bottom: 50px;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 25px 60px;
+    border-radius: 50px;
+    box-shadow: 0 25px 55px rgba(255, 215, 0, 0.2);
+    border: 3px solid var(--gold-royal);
+    opacity: 0;
+    transform: translateY(60px) scale(0.9);
+    pointer-events: none;
+    transition: all 1.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.victory-card.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.cosmic-btn {
+    display: inline-block;
+    padding: 16px 50px;
+    border-radius: 50px;
+    text-decoration: none;
+    background: linear-gradient(135deg, #1a0b2e, #0a0314);
+    color: var(--gold-royal);
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 1.3rem;
+    border: 2px solid var(--gold-royal);
+    box-shadow: 0 8px 0px #b39200, 0 15px 30px rgba(255, 215, 0, 0.3);
+    transition: all 0.2s ease;
+    position: relative;
+    top: 0;
+    cursor: none; /* Keep cursor custom over button */
+}
+
+.cosmic-btn:hover {
+    transform: translateY(2px);
+    box-shadow: 0 6px 0px #b39200, 0 12px 20px rgba(255, 215, 0, 0.3);
+    background: linear-gradient(135deg, var(--gold-royal), var(--gold-glow));
+    color: #1a0b2e;
+}
+
+.cosmic-btn:active {
+    top: 8px;
+    box-shadow: 0 0px 0px transparent;
+}
+</style>
+</head>
+<body>
+
+<!-- 🌌 COSMIC SPARKLE CURSOR HTML -->
+<div class="cosmic-cursor" id="cosmicCursor">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C12 2 12 9 9 12C12 15 12 22 12 22C12 22 12 15 15 12C12 9 12 2 12 2Z" fill="url(#starGlow)"/>
+        <path d="M2 12C2 12 9 12 12 9C15 12 22 12 22 12C22 12 15 12 12 15C9 12 2 12 2 12Z" fill="url(#starGlow)"/>
+        <circle cx="12" cy="12" r="2.5" fill="#ffffff"/>
+        <defs>
+            <linearGradient id="starGlow" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="var(--gold-royal)"/>
+                <stop offset="50%" stop-color="#ffffff"/>
+                <stop offset="100%" stop-color="var(--cosmic-pink)"/>
+            </linearGradient>
+        </defs>
+    </svg>
+</div>
+
+<div class="game-ui" id="gameUI">
+    <div class="instruction" id="insText">✨ Follow the Golden Numbers to Unlock the Universe ✨</div>
+    <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+</div>
+
+<div class="victory-card" id="victoryCard">
+    <a href="final.html" class="cosmic-btn">ENTER HER KINGDOM 👑</a>
+</div>
+
+<canvas id="starCanvas"></canvas>
+
+<script>
+const canvas = document.getElementById('starCanvas');
+const ctx = canvas.getContext('2d');
+
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
+
+let mouse = { x: null, y: null };
+let gameCompleted = false;
+let activeStarIndex = 0; 
+
+let backgroundStars = [];
+let gameStars = [];
+let particles = [];
+let meteors = [];
+let vortexStars = [];
+let textAlpha = 0;
+let vortexTimer = 0;
+
+// Cosmic Cursor Logic
+const cosmicCursor = document.getElementById('cosmicCursor');
+const colors = ['#ffd700', '#ff8fa3', '#ffffff', '#ffb703'];
+
+window.addEventListener('mousemove', (e) => { 
+    mouse.x = e.clientX; 
+    mouse.y = e.clientY; 
+    
+    // Update main cursor position
+    cosmicCursor.style.left = `${e.clientX}px`;
+    cosmicCursor.style.top = `${e.clientY}px`;
+    
+    // Create stardust trail particles dynamically on move
+    if (Math.random() > 0.4) {
+        createStardust(e.clientX, e.clientY);
+    }
+});
+
+window.addEventListener('touchmove', (e) => { 
+    if(e.touches.length>0) { 
+        mouse.x = e.touches[0].clientX; 
+        mouse.y = e.touches[0].clientY; 
+        cosmicCursor.style.left = `${mouse.x}px`;
+        cosmicCursor.style.top = `${mouse.y}px`;
+        createStardust(mouse.x, mouse.y);
+    } 
+});
+
+// Click pulse animation for the star cursor
+window.addEventListener('mousedown', () => {
+    cosmicCursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+});
+window.addEventListener('mouseup', () => {
+    cosmicCursor.style.transform = 'translate(-50%, -50%) scale(1)';
+});
+
+function createStardust(x, y) {
+    const particle = document.createElement('div');
+    particle.className = 'stardust-particle';
+    
+    const size = Math.random() * 6 + 2;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    
+    const chosenColor = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.backgroundColor = chosenColor;
+    particle.style.boxShadow = `0 0 ${size * 2}px ${chosenColor}`;
+    
+    particle.style.left = `${x}px`;
+    particle.style.top = `${y}px`;
+    
+    document.body.appendChild(particle);
+    
+    // Drifting animation away from the mouse path
+    const destinationX = (Math.random() - 0.5) * 40;
+    const destinationY = (Math.random() - 0.5) * 40 + 20; // soft drift down
+    
+    setTimeout(() => {
+        particle.style.transform = `translate(calc(-50% + ${destinationX}px), calc(-50% + ${destinationY}px)) scale(0)`;
+        particle.style.opacity = '0';
+    }, 10);
+    
+    setTimeout(() => {
+        particle.remove();
+    }, 450);
+}
+
+window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    if(!gameCompleted) initGame();
+});
+
+const handleInputClick = (clientX, clientY) => {
+    if(gameCompleted) return;
+    
+    let star = gameStars[activeStarIndex];
+    let dx = clientX - star.x;
+    let dy = clientY - star.y;
+    let dist = Math.sqrt(dx*dx + dy*dy);
+    
+    if(dist < 40) {
+        star.connected = true;
+        createExplosion(star.x, star.y, "#ffd700", 25); 
+        
+        activeStarIndex++;
+        
+        let progress = (activeStarIndex / gameStars.length) * 100;
+        document.getElementById('progFill').style.width = progress + "%";
+        
+        if(activeStarIndex >= gameStars.length) {
+            triggerCosmicVictory();
+        }
+    }
+};
+
+window.addEventListener('click', (e) => handleInputClick(e.clientX, e.clientY));
+window.addEventListener('touchstart', (e) => { if(e.touches.length>0) handleInputClick(e.touches[0].clientX, e.touches[0].clientY); });
+
+function createSpaceBackground() {
+    backgroundStars = [];
+    for(let i=0; i<180; i++) {
+        backgroundStars.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: Math.random() * 2,
+            alpha: Math.random(),
+            pulseSpeed: 0.008 + Math.random() * 0.015
+        });
+    }
+    meteors = [];
+    for(let i=0; i<4; i++) {
+        meteors.push({
+            x: Math.random() * width,
+            y: Math.random() * height * 0.4,
+            len: 40 + Math.random() * 50,
+            speed: 4 + Math.random() * 5,
+            alpha: 0.1 + Math.random() * 0.4
+        });
+    }
+}
+
+function initGame() {
+    createSpaceBackground();
+    gameStars = [];
+    vortexStars = [];
+    textAlpha = 0;
+    vortexTimer = 0;
+    
+    const centerX = width / 2;
+    const centerY = height / 2;
+    
+    const randomPositions = [
+        {x: -280, y: -130}, {x: 180, y: -160}, {x: -80, y: 150},  {x: 250, y: 90},
+        {x: -200, y: -20},  {x: 50, y: -140}, {x: -220, y: 120}, {x: 190, y: -30}
+    ];
+
+    for(let i=0; i<8; i++) {
+        gameStars.push({
+            x: centerX + randomPositions[i].x,
+            y: centerY + randomPositions[i].y,
+            size: 8 + Math.random() * 3, 
+            connected: false,
+            pulse: Math.random() * Math.PI,
+            id: i + 1 
+        });
+    }
+}
+
+function createExplosion(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        particles.push({
+            x: x,
+            y: y,
+            vx: (Math.random() * 6 - 3),
+            vy: (Math.random() * 6 - 3),
+            size: 2 + Math.random() * 3,
+            alpha: 1,
+            decay: 0.015 + Math.random() * 0.015,
+            color: Math.random() > 0.5 ? "#ffd700" : "#ff4d6d"
+        });
+    }
+}
+
+function triggerCosmicVictory() {
+    gameCompleted = true;
+    document.getElementById('gameUI').classList.add('fade-out');
+   
+    gameStars.forEach(s => createExplosion(s.x, s.y, "#ffd700", 15));
+
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    for(let i = 0; i < 260; i++) {
+        let fromLeft = Math.random() > 0.5;
+        
+        let startX = fromLeft ? -50 - (Math.random() * 200) : width + 50 + (Math.random() * 200);
+        let startY = Math.random() * height;
+
+        vortexStars.push({
+            x: startX,
+            y: startY,
+            startX: startX,
+            startY: startY,
+            angle: Math.random() * Math.PI * 2,
+            radius: 200 + Math.random() * 400,
+            speed: 3 + Math.random() * 4, 
+            size: 1.5 + Math.random() * 3,
+            color: Math.random() > 0.4 ? "#ffd700" : (Math.random() > 0.5 ? "#ff8fa3" : "#ffffff"),
+            phase: 'rush'
+        });
+    }
+    
+    setTimeout(() => {
+        document.getElementById('victoryCard').classList.add('show');
+    }, 10000);
+}
+
+const textLines = [
+    "Litissia",
+    "you are my star",
+    "the prettiest star in this universe"
+];
+
+initGame();
+
+function draw() {
+    ctx.clearRect(0,0,width,height);
+    
+    let time = Date.now() * 0.0005;
+    let nebulaX = width/2 + Math.sin(time) * 40;
+    let nebulaY = height/2 + Math.cos(time) * 40;
+    let nebula = ctx.createRadialGradient(nebulaX, nebulaY, 100, width/2, height/2, width*0.8);
+    nebula.addColorStop(0, '#160226');
+    nebula.addColorStop(0.5, '#0a0314');
+    nebula.addColorStop(1, '#020005');
+    ctx.fillStyle = nebula;
+    ctx.fillRect(0,0,width,height);
+    
+    meteors.forEach(m => {
+        m.x -= m.speed;
+        m.y += m.speed * 0.5;
+        if(m.x < -m.len || m.y > height) {
+            m.x = width + m.len;
+            m.y = Math.random() * height * 0.4;
+        }
+        ctx.strokeStyle = `rgba(255, 215, 0, ${m.alpha})`;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(m.x, m.y);
+        ctx.lineTo(m.x - m.len, m.y + m.len * 0.5);
+        ctx.stroke();
+    });
+
+    backgroundStars.forEach(s => {
+        s.alpha += s.pulseSpeed;
+        if(s.alpha > 1 || s.alpha < 0.1) s.pulseSpeed = -s.pulseSpeed;
+        ctx.fillStyle = `rgba(255,255,255, ${Math.abs(s.alpha)})`;
+        ctx.fillRect(s.x, s.y, s.size, s.size);
+    });
+    
+    particles.forEach((p, index) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha -= p.decay;
+        if(p.alpha <= 0) {
+            particles.splice(index, 1);
+        } else {
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.alpha;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+            ctx.fill();
+        }
+    });
+    ctx.globalAlpha = 1.0;
+
+    if(!gameCompleted) {
+        for(let i=0; i<gameStars.length; i++) {
+            let s1 = gameStars[i];
+            
+            if(i < gameStars.length - 1) {
+                let s2 = gameStars[i+1];
+                ctx.beginPath();
+                ctx.moveTo(s1.x, s1.y);
+                ctx.lineTo(s2.x, s2.y);
+                
+                if (s1.connected && i < activeStarIndex) {
+                    ctx.strokeStyle = 'rgba(255, 215, 0, 0.95)'; 
+                    ctx.lineWidth = 4; 
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = '#ffd700';
+                } else {
+                    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+                    ctx.lineWidth = 1.5;
+                }
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+            }
+            
+            s1.pulse += 0.04;
+            let mouseDist = mouse.x ? Math.sqrt(Math.pow(mouse.x - s1.x, 2) + Math.pow(mouse.y - s1.y, 2)) : 500;
+            let hoverEffect = mouseDist < 70 ? (70 - mouseDist) * 0.2 : 0;
+            let currentSize = s1.size + Math.sin(s1.pulse) * 2 + hoverEffect;
+            
+            ctx.beginPath();
+            ctx.arc(s1.x, s1.y, currentSize, 0, Math.PI*2);
+            
+            if(s1.connected) {
+                ctx.fillStyle = "#ffd700";
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = "#ffd700";
+            } else if(i === activeStarIndex) {
+                ctx.fillStyle = "#fff";
+                ctx.shadowBlur = 30 + Math.sin(s1.pulse) * 8;
+                ctx.shadowColor = "#ffd700";
+            } else {
+                ctx.fillStyle = "rgba(255,255,255,0.25)";
+                ctx.shadowBlur = 0;
+            }
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            ctx.font = "bold 1.1rem 'Fredoka', sans-serif";
+            ctx.fillStyle = i === activeStarIndex ? "#ffd700" : "rgba(255,255,255,0.4)";
+            ctx.textAlign = "center";
+            ctx.fillText(s1.id, s1.x, s1.y - currentSize - 10);
+        }
+
+        if(activeStarIndex > 0 && activeStarIndex < gameStars.length) {
+            let prevStar = gameStars[activeStarIndex - 1];
+            let nextStar = gameStars[activeStarIndex];
+            let angle = Math.atan2(nextStar.y - prevStar.y, nextStar.x - prevStar.x);
+            let arrowDist = 45 + Math.sin(Date.now() * 0.007) * 10; 
+            
+            let arrowX = prevStar.x + Math.cos(angle) * arrowDist;
+            let arrowY = prevStar.y + Math.sin(angle) * arrowDist;
+
+            ctx.save();
+            ctx.translate(arrowX, arrowY);
+            ctx.rotate(angle);
+            ctx.fillStyle = "#ffd700";
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = "#ffd700";
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(-12, -7);
+            ctx.lineTo(-12, 7);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
+    } 
+    else {
+        const centerX = width / 2;
+        const centerY = height / 2;
+        vortexTimer++;
+
+        vortexStars.forEach(s => {
+            if (s.phase === 'rush') {
+                let dx = centerX - s.x;
+                let dy = centerY - s.y;
+                let dist = Math.sqrt(dx*dx + dy*dy);
+
+                if (dist < s.radius) {
+                    s.phase = 'vortex';
+                    s.angle = Math.atan2(s.y - centerY, s.x - centerX);
+                    s.radius = dist;
+                } else {
+                    s.x += (dx / dist) * s.speed * 1.5;
+                    s.y += (dy / dist) * s.speed * 1.5;
+                }
+            } 
+            else if (s.phase === 'vortex') {
+                s.angle += 0.04; 
+                s.radius -= 1.2; 
+                if (s.radius < 5 || vortexTimer > 350) { 
+                    s.phase = 'disperse'; 
+                } else {
+                    s.x = centerX + Math.cos(s.angle) * s.radius;
+                    s.y = centerY + Math.sin(s.angle) * s.radius;
+                }
+            }
+
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+            ctx.fillStyle = s.color;
+            if(s.phase === 'vortex') {
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = s.color;
+            }
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        });
+
+        if(vortexTimer > 140) {
+            if(textAlpha < 1) textAlpha += 0.008; 
+            ctx.globalAlpha = textAlpha;
+            ctx.textAlign = "center";
+            
+            let goldGradient = ctx.createLinearGradient(0, height/2 - 160, 0, height/2 + 120);
+            goldGradient.addColorStop(0, '#ffffff');
+            goldGradient.addColorStop(0.3, '#fff2b2');
+            goldGradient.addColorStop(0.6, '#ffd700');
+            goldGradient.addColorStop(1, '#ff8fa3');
+            
+            ctx.fillStyle = goldGradient;
+            ctx.shadowBlur = 35;
+            ctx.shadowColor = "rgba(255, 215, 0, 0.7)";
+            
+            ctx.font = "900 5.4rem 'Cinzel', serif"; 
+            ctx.fillText(textLines[0], width/2, height/2 - 140 + 25);
+            
+            ctx.font = "bold 2.8rem 'Fredoka', sans-serif";
+            ctx.fillText(textLines[1], width/2, height/2 - 20 + 12);
+            
+            ctx.font = "italic 400 3.2rem 'Great Vibes', cursive";
+            ctx.fillStyle = "#ffe5ec";
+            ctx.fillText(textLines[2], width/2, height/2 + 100);
+            
+            ctx.shadowBlur = 0;
+            ctx.globalAlpha = 1.0;
+        }
+    }
+
+    requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+</body>
+</html>

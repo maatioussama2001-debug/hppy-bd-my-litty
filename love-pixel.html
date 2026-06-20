@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pixel Love Game 👾</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --pixel-pink: #ff4da6;
+    --pixel-purple: #9d4edd;
+    --pixel-blue: #00b4d8;
+    --bg-dark: #0f051d;
+    --border-color: #ff4da6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, #240c47 0%, #0a0214 100%);
+    overflow: hidden;
+    color: #fff;
+    position: relative;
+    /* إخفاء المؤشر الأصلي لتمكين المؤشر البكسلي المخصص */
+    cursor: none;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background:
+        linear-gradient(rgba(255, 45, 136, 0.04) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(255, 45, 136, 0.04) 2px, transparent 2px);
+    background-size: 24px 24px;
+    z-index: 0;
+}
+
+/* 👾 CUSTOM PIXEL RETRO CURSOR & TRAIL STYLE */
+.pixel-cursor {
+    position: fixed;
+    width: 28px;
+    height: 28px;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-2px, -2px); /* محاذاة طرف المؤشر البكسلي بدقة */
+}
+
+.pixel-trail-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 11px;
+    transform: translate(-50%, -50%);
+    transition: transform 0.4s steps(4), opacity 0.4s ease-out;
+}
+
+.ui-header {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+    width: 100%;
+    text-align: center;
+}
+
+.hp-bar {
+    font-size: 11px;
+    color: #00b4d8;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 12px 18px;
+    border: 4px dashed #00b4d8;
+    box-shadow: 6px 6px 0px #000;
+}
+
+.hp-hearts {
+    color: #ff2d55;
+    letter-spacing: 6px;
+    margin-top: 8px;
+    font-size: 14px;
+    display: inline-block;
+    text-shadow: 2px 2px 0px #000;
+    transition: all 0.2s steps(2);
+}
+
+.game-box {
+    text-align: center;
+    z-index: 5;
+    background: rgba(26, 11, 46, 0.9);
+    border: 5px solid var(--border-color);
+    padding: 50px 30px;
+    box-shadow: 8px 8px 0px #000, 0 0 25px rgba(255, 77, 166, 0.3);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+}
+
+h1 {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    color: var(--pixel-pink);
+    text-shadow: 3px 3px 0px #000;
+    animation: textFlash 1.5s infinite steps(2);
+}
+
+@keyframes textFlash {
+    0%, 100% { text-shadow: 3px 3px 0px #000, 0 0 10px var(--pixel-pink); }
+    50% { text-shadow: 3px 3px 0px #000, 0 0 0px var(--pixel-pink); color: #fff; }
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 22px;
+    margin: 12px;
+    border: 4px solid var(--border-color);
+    background: #1a0033;
+    color: var(--border-color);
+    font-size: 11px;
+    font-weight: bold;
+    box-shadow: 4px 4px 0px #000;
+    transition: transform 0.1s;
+    z-index: 2;
+    position: relative;
+    cursor: none; /* حظر المؤشر الافتراضي فوق الأزرار */
+}
+
+.btn:hover {
+    background: var(--border-color);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 4px 6px 0px #000;
+}
+
+.btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px #000;
+}
+
+#no {
+    position: absolute;
+    z-index: 8;
+    transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: #090214;
+    border: 5px solid #00b4d8;
+    padding: 45px 30px;
+    display: none;
+    text-align: center;
+    z-index: 20;
+    box-shadow: 12px 12px 0px #000;
+    width: 85%;
+    max-width: 450px;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+    to { transform: translate(-50%, -50%) scale(1); }
+}
+
+.cat {
+    font-size: 50px;
+    margin-bottom: 25px;
+    animation: pixelJump 0.6s infinite steps(2) alternate;
+    display: inline-block;
+}
+
+@keyframes pixelJump {
+    from { transform: translateY(0); }
+    to { transform: translateY(-12px); }
+}
+
+h2 {
+    font-size: 12px;
+    color: #00b4d8;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 0px #000;
+    line-height: 1.8;
+}
+
+.next-btn {
+    padding: 16px 22px;
+    border: 4px solid #ff4da6;
+    background: #1a0033;
+    color: #ff4da6;
+    font-size: 10px;
+    box-shadow: 4px 4px 0px #000;
+    transition: all 0.1s;
+    cursor: none;
+}
+
+.next-btn:hover {
+    transform: translateY(-2px);
+    background: #ff4da6;
+    color: white;
+    box-shadow: 4px 6px 0px #000;
+}
+
+.next-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px #000;
+}
+
+.pixel-star {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.5;
+    animation: floatStar linear infinite steps(10);
+    z-index: 1;
+}
+
+@keyframes floatStar {
+    0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+.game-text {
+    position: fixed;
+    color: #ff2d55;
+    font-size: 10px;
+    pointer-events: none;
+    z-index: 15;
+    animation: textUp 0.8s steps(6) forwards;
+    text-shadow: 2px 2px 0px #000;
+}
+
+@keyframes textUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-50px); opacity: 0; }
+}
+
+.heart {
+    position: fixed;
+    font-size: 18px;
+    z-index: 25;
+    animation: floatUp 1.8s steps(12) forwards;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-280px) scale(1.5); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 👾 SVG المؤشر البكسلي الكلاسيكي المخصص لمظهر الأركيد -->
+<div class="pixel-cursor" id="pixelCursor">
+    <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 2H6V4H4V2ZM6 4H8V6H6V4ZM8 6H10V8H8V6ZM10 8H12V10H10V8ZM12 10H14V12H12V10ZM14 12H16V14H14V12ZM16 14H18V16H16V14ZM12 14H14V16H12V14ZM10 16H12V18H10V16ZM8 18H10V20H8V18ZM6 20H8V22H6V20ZM4 22H6V24H4V22ZM2 4H4V22H2V4Z" fill="black"/>
+        <path d="M6 6H8V8H6V6ZM8 8H10V10H8V8ZM10 10H12V12H10V10ZM12 12H14V14H12V12ZM14 14H16V16H14V14ZM10 14H12V16H10V14ZM8 16H10V18H8V16ZM6 18H8V20H6V18ZM4 4H6V22H4V4Z" fill="#ff4da6"/>
+        <path d="M6 12H8V14H6V12ZM8 14H10V16H8V14ZM4 6H6V12H4V6Z" fill="#ffffff"/>
+    </svg>
+</div>
+
+<div class="ui-header">
+    <div class="hp-bar">
+        STATUS [LVL 99]<br>PLAYER: LITISSIA 👑<br>
+        <div class="hp-hearts" id="hpContainer">💖 💖 💖</div>
+    </div>
+</div>
+
+<div class="game-box">
+    <h1>&lt; DO YOU LOVE ME? &gt;</h1>
+    <button class="btn" onclick="yes()">YES 💖</button>
+    <button class="btn" id="no" onmouseover="run()" onclick="run()">NO 💔</button>
+</div>
+
+<div class="popup" id="popup">
+    <div class="cat">🐱✨💝</div>
+    <h2>🏆 STAGE CLEARED!<br><br>🌟 MAX SCORE! I LOVE YOU MORE 💜</h2>
+    <button class="next-btn" onclick="nextPage()">
+        🎂 NEXT SURPRISE &gt;&gt;
+    </button>
+</div>
+
+<audio id="whoosh" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3b7c7d6b6a.mp3"></audio>
+<audio id="click" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_4c2d7c6d7c.mp3"></audio>
+<audio id="love" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2b7c7d6b6a.mp3"></audio>
+
+<script>
+    // منطق حركة جزيئات الفأرة البكسلية
+    const cursor = document.getElementById('pixelCursor');
+    const trailItems = ["✨", "👾", "❤️", "⭐", "🍒", "🍄"];
+
+    window.addEventListener('mousemove', (e) => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+
+        if (Math.random() > 0.75) {
+            createPixelTrail(e.clientX, e.clientY);
+        }
+    });
+
+    window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            const touch = e.touches[0];
+            cursor.style.left = `${touch.clientX}px`;
+            cursor.style.top = `${touch.clientY}px`;
+            createPixelTrail(touch.clientX, touch.clientY);
+        }
+    });
+
+    function createPixelTrail(x, y) {
+        const p = document.createElement('div');
+        p.className = 'pixel-trail-particle';
+        p.innerText = trailItems[Math.floor(Math.random() * trailItems.length)];
+        p.style.left = `${x + 10}px`;
+        p.style.top = `${y + 20}px`;
+        document.body.appendChild(p);
+
+        const driftX = (Math.random() - 0.5) * 40;
+        const driftY = Math.random() * 30 + 10;
+
+        setTimeout(() => {
+            p.style.transform = `translate(calc(-50% + ${driftX}px), calc(-50% + ${driftY}px)) scale(0)`;
+            p.style.opacity = '0';
+        }, 40);
+
+        setTimeout(() => p.remove(), 400);
+    }
+
+    const pixelItems = ["✨", "👾", "❤️", "⭐", "🍒", "🍄"];
+    for(let i = 0; i < 35; i++) {
+        let s = document.createElement("div");
+        s.classList.add("pixel-star");
+        s.innerHTML = pixelItems[Math.floor(Math.random() * pixelItems.length)];
+        s.style.left = Math.random() * 100 + "vw";
+        s.style.top = Math.random() * 100 + "vh";
+        s.style.fontSize = (12 + Math.random() * 14) + "px";
+        s.style.animationDuration = (4 + Math.random() * 5) + "s";
+        s.style.animationDelay = (Math.random() * 4) + "s";
+        document.body.appendChild(s);
+    }
+    
+    document.addEventListener("click", () => {
+        document.getElementById("whoosh").play().catch(()=>{});
+    }, {once: true});
+    
+    let clickCount = 0;
+    const hpContainer = document.getElementById("hpContainer");
+    
+    const phrases = [
+        "MISS! 👾", 
+        "TOO SLOW! ⚡", 
+        "TRY AGAIN! 😉", 
+        "CATCH ME! 🏃‍♀️", 
+        "NO WAY! 💖",
+        "STILL TRYING? 😂",
+        "🔒 ACCESS DENIED"
+    ];
+
+    function run() {
+        document.getElementById("click").currentTime = 0;
+        document.getElementById("click").play().catch(()=>{});
+        
+        let noBtn = document.getElementById("no");
+        
+        let x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40);
+        let y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40);
+        
+        noBtn.style.position = "fixed";
+        noBtn.style.left = Math.max(20, x) + "px";
+        noBtn.style.top = Math.max(80, y) + "px";
+        
+        clickCount++;
+        
+        let dynamicText = phrases[Math.floor(Math.random() * phrases.length)] + ` x${clickCount}`;
+        createFloatingText(dynamicText);
+        
+        if(clickCount === 1) {
+            hpContainer.innerHTML = "💖 💖 💔";
+        } else if(clickCount === 3) {
+            hpContainer.innerHTML = "💖 💔 💔";
+        } else if(clickCount >= 5) {
+            hpContainer.innerHTML = "💔 💔 💔 <span style='color:#ff4da6; font-size:9px;'><br>&lt; SYSTEM ERROR: YOU MUST SAY YES! 👑 &gt;</span>";
+        }
+    }
+
+    function createFloatingText(text) {
+        let txt = document.createElement("div");
+        txt.classList.add("game-text");
+        txt.innerText = text;
+        
+        let noBtn = document.getElementById("no");
+        txt.style.left = (noBtn.offsetLeft + 15) + "px";
+        txt.style.top = (noBtn.offsetTop - 20) + "px";
+        
+        document.body.appendChild(txt);
+        setTimeout(() => txt.remove(), 800);
+    }
+    
+    function yes() {
+        document.getElementById("love").currentTime = 0;
+        document.getElementById("love").play().catch(()=>{});
+        
+        hpContainer.innerHTML = "💖 💖 💖 💖 💖";
+        hpContainer.style.color = "#ff2d55";
+        
+        document.getElementById("popup").style.display = "block";
+        
+        for(let i = 0; i < 75; i++) {
+            let h = document.createElement("div");
+            h.classList.add("heart");
+            h.innerHTML = ["💜", "💖", "💝", "❤️", "👾", "✨"][Math.floor(Math.random() * 6)];
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.top = "85vh";
+            h.style.fontSize = (14 + Math.random() * 16) + "px";
+            h.style.animationDelay = (Math.random() * 0.4) + "s";
+            h.style.animationDuration = (1.5 + Math.random() * 1) + "s";
+            document.body.appendChild(h);
+            
+            setTimeout(() => h.remove(), 2500);
+        }
+    }
+
+    function nextPage() {
+        window.location.href = "birthday-cake.html";
+    }
+</script>
+
+</body>
+</html>

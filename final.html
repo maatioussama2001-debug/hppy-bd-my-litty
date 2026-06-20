@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Litissia - The Luminous Inkwell ✒️</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg-manuscript: #050406;       
+    --ink-gold: #dfba9d;      
+    --text-silk: #fcf9f6;      
+    --rose-velvet: #c9837c;    
+    --fluid-glow: rgba(223, 186, 157, 0.06);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--bg-manuscript);
+    font-family: 'Amiri', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    color: var(--text-silk);
+    cursor: none; 
+}
+
+.custom-quill-cursor {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-2px, -30px);
+    transition: transform 0.08s ease-out;
+}
+
+.custom-quill-cursor svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 8px var(--ink-gold));
+}
+
+.manuscript-theater {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.ink-bleed-aura {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    mix-blend-mode: color-dodge;
+    transition: all 2.5s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+.aura-1 { top: -10%; left: 10%; width: 800px; height: 800px; background: radial-gradient(circle, rgba(201, 131, 124, 0.12) 0%, transparent 70%); }
+.aura-2 { bottom: -10%; right: 10%; width: 900px; height: 900px; background: radial-gradient(circle, rgba(223, 186, 157, 0.1) 0%, transparent 70%); }
+
+.canvas-holder {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 800px;
+    padding: 40px;
+    text-align: center;
+}
+
+.counter-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 6px;
+    color: var(--rose-velvet);
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 24px;
+    margin-bottom: 5px;
+    text-shadow: 0 0 35px rgba(223, 186, 157, 0.25);
+    color: var(--text-silk);
+    text-transform: uppercase;
+}
+
+.divider-line {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--ink-gold);
+    letter-spacing: 12px;
+    margin-bottom: 40px;
+    opacity: 0.6;
+}
+
+.inkwell-container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto 40px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+}
+
+.inkwell-core {
+    width: 36px;
+    height: 36px;
+    background: radial-gradient(circle, #ffffff 0%, var(--ink-gold) 80%);
+    border-radius: 50%;
+    box-shadow: 0 0 30px var(--ink-gold), 0 0 60px var(--rose-velvet);
+    z-index: 5;
+    transition: all 0.5s cubic-bezier(0.15, 0.85, 0.3, 1.2);
+}
+
+.poetry-wave {
+    position: absolute;
+    border: 1px solid rgba(223, 186, 157, 0.15);
+    border-radius: 45% 55% 50% 50% / 50% 45% 55% 45%; 
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.wave-1 { width: 160px; height: 160px; animation: oscillateFluid 8s ease-in-out infinite; }
+.wave-2 { width: 110px; height: 110px; animation: oscillateFluid 5s ease-in-out infinite reverse; }
+
+@keyframes oscillateFluid {
+    0% { transform: rotate(0deg) scale(1); border-radius: 45% 55% 50% 50% / 50% 45% 55% 45%; }
+    50% { transform: rotate(180deg) scale(1.05); border-radius: 50% 50% 45% 55% / 45% 55% 50% 50%; }
+    100% { transform: rotate(360deg) scale(1); border-radius: 45% 55% 50% 50% / 50% 45% 55% 45%; }
+}
+.inkwell-container:hover .inkwell-core {
+    transform: scale(1.4);
+    box-shadow: 0 0 50px #ffffff, 0 0 30px var(--ink-gold), 0 0 90px var(--rose-velvet);
+}
+
+.inkwell-container:hover .wave-1 {
+    width: 190px; height: 190px;
+    border-color: rgba(252, 249, 246, 0.35);
+    border-style: double;
+}
+
+.inkwell-container:hover .wave-2 {
+    width: 70px; height: 70px;
+    border-color: var(--rose-velvet);
+    background: rgba(201, 131, 124, 0.05);
+}
+
+.ink-shockwave {
+    position: absolute;
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+    animation: bleedOut 1.4s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+@keyframes bleedOut {
+    0% { width: 30px; height: 30px; opacity: 1; filter: blur(0); }
+    100% { width: 1200px; height: 1200px; opacity: 0; filter: blur(5px); border-color: var(--ink-gold); background: rgba(223, 186, 157, 0.01); }
+}
+
+.gold-shard {
+    position: absolute;
+    pointer-events: none;
+    transform-style: preserve-3d;
+}
+
+.poetry-vault {
+    min-height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.message-text {
+    font-size: 2.1rem;
+    line-height: 2.5;
+    color: var(--text-silk);
+    max-width: 720px;
+    direction: rtl;
+    font-weight: 500;
+    text-shadow: 0 0 20px rgba(252, 249, 246, 0.15);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.message-text.intro-state {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.1rem;
+    opacity: 0.5;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    direction: ltr;
+}
+
+.message-text.reveal-active {
+    animation: verseRise 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes verseRise {
+    0% { transform: translateY(25px) scale(0.97); opacity: 0; filter: blur(8px); }
+    100% { transform: translateY(0) scale(1); opacity: 1; filter: blur(0); }
+}
+
+.ink-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 35px;
+    background-color: var(--ink-gold);
+    margin-right: 8px;
+    animation: blinkInk 0.8s infinite;
+    box-shadow: 0 0 8px var(--ink-gold);
+    vertical-align: middle;
+}
+@keyframes blinkInk { 50% { opacity: 0; } }
+
+.prompt-hint {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 5px;
+    color: var(--ink-gold);
+    opacity: 0.5;
+    text-transform: uppercase;
+    margin-top: 40px;
+    transition: opacity 0.3s;
+}
+
+.constellation-map {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin-top: 45px;
+}
+.star-node {
+    width: 6px;
+    height: 6px;
+    background-color: transparent;
+    border: 1px solid rgba(223, 186, 157, 0.25);
+    border-radius: 50%;
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.star-node.ignited {
+    background-color: #ffffff;
+    border-color: var(--ink-gold);
+    box-shadow: 0 0 15px var(--ink-gold), 0 0 30px #ffffff;
+    transform: scale(1.5);
+}
+
+.manuscript-finale-active .inkwell-core {
+    background: #ffffff !important;
+    box-shadow: 0 0 100px #ffffff, 0 0 40px var(--ink-gold);
+    transform: scale(1.8);
+}
+</style>
+</head>
+<body>
+
+<div class="custom-quill-cursor" id="quillCursor">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 3C18 3 13.5 4.5 10.5 7.5C7.5 10.5 6 15 6 18C6 18.5 6.5 19 7 19C10 19 14.5 17.5 17.5 14.5C20.5 11.5 22 7 22 4C22 3.5 21.5 3 21 3Z" fill="#dfba9d"/>
+        <path d="M6 18C4.5 19.5 2 22 2 22C2 22 4.5 19.5 6 18Z" stroke="#dfba9d" stroke-width="2" stroke-linecap="round"/>
+        <path d="M10.5 7.5L16.5 13.5" stroke="#050406" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+</div>
+
+<div class="manuscript-theater" id="manuscriptTheater">
+    <div class="ink-bleed-aura aura-1" id="aura1"></div>
+    <div class="ink-bleed-aura aura-2" id="aura2"></div>
+</div>
+
+<div class="canvas-holder" id="canvasHolder">
+    <div class="counter-badge" id="counterBadge">POETIC MANUSCRIPT // ALIGNMENT 0</div>
+    <h1 id="titleHeader">Litissia</h1>
+    <div class="divider-line">THE SACRED CHRONICLES</div>
+    
+    <div class="inkwell-container" id="inkwellContainer" onclick="bleedNextVerse(event)">
+        <div class="poetry-wave wave-1"></div>
+        <div class="poetry-wave wave-2"></div>
+        <div class="inkwell-core" id="inkCore"></div>
+    </div>
+
+    <div class="poetry-vault">
+        <p class="message-text intro-state" id="secretMessage">Dip the golden quill into the core to awaken the verses...</p>
+    </div>
+
+    <p class="prompt-hint" id="hintText">Awaiting Divine Inspiration</p>
+    
+    <div class="constellation-map">
+        <div class="star-node"></div>
+        <div class="star-node"></div>
+        <div class="star-node"></div>
+        <div class="star-node"></div>
+        <div class="star-node"></div>
+        <div class="star-node"></div>
+        <div class="star-node"></div>
+        <div class="star-node"></div>
+        <div class="star-node"></div>
+        <div class="star-node"></div>
+    </div>
+</div>
+
+<script>
+const verses = [
+    { text: "رأيـت بهـا بدراً على الأرض ماشـيـاً........... ولــم أر بـدراً قـط يـمشـي عـلـى الأرض.", hint: "VERSE I: THE LUNAR DESCENT", c1: "rgba(223, 186, 157, 0.16)", c2: "rgba(201, 131, 124, 0.1)" },
+    { text: "وما كنت ممن يدخل العشق قلبه........... و لكن من يبصر جفونك يعشق.", hint: "VERSE II: THE STARGAZER'S DOOM", c1: "rgba(201, 131, 124, 0.22)", c2: "rgba(140, 90, 110, 0.12)" },
+    { text: "إذا مــا رأت عـيـني جـمـالـك مـقــــبلاً........... و حـقـك يـا روحـي سـكـرت بـلا شرب", hint: "VERSE III: DIVINE INTOXICATION", c1: "rgba(235, 160, 120, 0.22)", c2: "rgba(180, 100, 100, 0.12)" },
+    { text: "ولو خلط الـسـم المذاب بريقهـــــــــــــا ........... وأسـقـيـت مـنـه نـهـلـة لـبـريـــــــــــــــــــت", hint: "VERSE IV: THE MYSTICAL ANTIDOTE", c1: "rgba(120, 190, 170, 0.18)", c2: "rgba(223, 186, 157, 0.1)" },
+    { text: "أُحِبُّكِ أَصْنَافَاً مِنَ الحُبِّ لَمْ أَجِدْ لَها مَثَلاً في سَائِرِ النَّاسِ يُوصَفُ.", hint: "VERSE V: BOUNDLESS SPECTRUMS", c1: "rgba(210, 120, 170, 0.22)", c2: "rgba(130, 80, 140, 0.12)" },
+    { text: "خـضـعت لـهـا في الحب من بعد عزتي ........... و كـل محب لـلأحـبـة خـاضـــــــــــع", hint: "VERSE VI: ABSOLUTE SURRENDER", c1: "rgba(160, 130, 220, 0.2)", c2: "rgba(201, 131, 124, 0.1)" },
+    { text: "معك تزدهر فصول صدري ....... وتعم الفرحة والبهجة والسعادة أركاني", hint: "VERSE VII: THE CORE BLOSSOM", c1: "rgba(140, 220, 140, 0.18)", c2: "rgba(235, 190, 130, 0.12)" },
+    { text: "قـتل الـورد نـفسه حـسداً مـنـــــــــك ........... و ألـقى دمـاه في وجـنــتــيــــــــــــــــــــك", hint: "VERSE VIII: CRIMSON JEALOUSY", c1: "rgba(230, 80, 80, 0.25)", c2: "rgba(140, 40, 80, 0.15)" },
+    { text: "سلامٌ على قلبكِ الذي كُلّما نَبَض، تَرتّبَ الكونُ بصدري وضاعت مَخاوفه.", hint: "VERSE IX: HARMONIC COSMOS", c1: "rgba(120, 170, 230, 0.25)", c2: "rgba(223, 186, 157, 0.12)" },
+    { text: "تَهْفُو بِقَلْبِي أَشْوَاقِي فَأُمْسِكَهُ .............لمّا أَرَاكِ وَهَل يَشْفِيهِ إِمْسَاكِي", hint: "VERSE X: THE INFINITE ECLIPSE", c1: "rgba(240, 150, 100, 0.3)", c2: "rgba(201, 131, 124, 0.18)" }
+];
+
+let currentIndex = 0;
+let isTyping = false;
+let finaleActive = false;
+let activeShards = [];
+
+const quillCursor = document.getElementById('quillCursor');
+document.addEventListener('mousemove', (e) => {
+    quillCursor.style.left = `${e.clientX}px`;
+    quillCursor.style.top = `${e.clientY}px`;
+});
+
+document.addEventListener('mousedown', () => {
+    quillCursor.style.transform = 'translate(-2px, -30px) rotate(-15deg) scale(0.9)';
+});
+document.addEventListener('mouseup', () => {
+    quillCursor.style.transform = 'translate(-2px, -30px) rotate(0deg) scale(1)';
+});
+
+function renderInkShards() {
+    for (let i = activeShards.length - 1; i >= 0; i--) {
+        let p = activeShards[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rotation += p.vRot;
+        p.age += 16;
+        
+        p.vy += 0.02; 
+        
+        p.el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) rotate(${p.rotation}deg) scale(${1 - p.age / p.maxAge})`;
+        p.el.style.opacity = 1 - p.age / p.maxAge;
+
+        if (p.age >= p.maxAge) {
+            p.el.remove();
+            activeShards.splice(i, 1);
+        }
+    }
+    requestAnimationFrame(renderInkShards);
+}
+requestAnimationFrame(renderInkShards);
+
+function bleedNextVerse(event) {
+    if (isTyping || finaleActive) return;
+
+    const shock = document.createElement('div');
+    shock.className = 'ink-shockwave';
+    document.getElementById('inkwellContainer').appendChild(shock);
+    setTimeout(() => shock.remove(), 1400);
+
+    explodePoeticGold(event.clientX, event.clientY);
+
+    if (currentIndex < verses.length) {
+        const current = verses[currentIndex];
+        document.getElementById('counterBadge').textContent = `POETIC MANUSCRIPT // ALIGNMENT ${currentIndex + 1}`;
+        
+        document.documentElement.style.setProperty('--aura-1', current.c1);
+        document.documentElement.style.setProperty('--aura-2', current.c2);
+        
+        const nodes = document.querySelectorAll('.star-node');
+        if(nodes[currentIndex]) nodes[currentIndex].classList.add('ignited');
+
+        typeWriterCalligraphy(current.text, current.hint, () => {
+            currentIndex++;
+            if (currentIndex === verses.length) {
+                setTimeout(revealAbsoluteEnding, 1500); 
+            }
+        });
+    }
+}
+
+function explodePoeticGold(mx, my) {
+    const container = document.getElementById('manuscriptTheater');
+    const shardCount = 35; 
+
+    for (let i = 0; i < shardCount; i++) {
+        const el = document.createElement('div');
+        el.className = 'gold-shard';
+        
+        const w = Math.random() * 8 + 3;
+        const h = Math.random() * 12 + 4;
+        el.style.width = `${w}px`;
+        el.style.height = `${h}px`;
+        
+        const tones = ['#ffffff', 'var(--ink-gold)', 'var(--rose-velvet)', '#f4e3d3'];
+        el.style.backgroundColor = tones[Math.floor(Math.random() * tones.length)];
+        el.style.boxShadow = `0 0 10px ${el.style.backgroundColor}`;
+        el.style.borderRadius = `${Math.random() * 50}%`; 
+        container.appendChild(el);
+
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 7 + 2;
+
+        activeShards.push({
+            el: el,
+            x: mx || window.innerWidth / 2,
+            y: my || window.innerHeight * 0.38,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 1.5, 
+            rotation: Math.random() * 360,
+            vRot: (Math.random() - 0.5) * 5,
+            age: 0,
+            maxAge: Math.random() * 1200 + 800
+        });
+    }
+}
+
+function typeWriterCalligraphy(text, hintText, callback) {
+    isTyping = true;
+    const element = document.getElementById('secretMessage');
+    const hint = document.getElementById('hintText');
+    
+    element.className = "message-text reveal-active"; 
+    hint.textContent = hintText;
+    hint.style.opacity = "0.9";
+
+    element.innerHTML = '';
+    let i = 0;
+    
+    const textSpan = document.createElement('span');
+    const cursorSpan = document.createElement('span');
+    cursorSpan.className = 'ink-cursor';
+    cursorSpan.innerHTML = '&nbsp;';
+    element.appendChild(textSpan);
+    element.appendChild(cursorSpan);
+
+    function type() {
+        if (i < text.length) {
+            textSpan.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, 35); 
+        } else {
+            isTyping = false;
+            hint.textContent = currentIndex < verses.length - 1 ? "TAP THE INKWELL CORE TO ADVANCE" : "THE CHRONICLES ARE COMPLETED";
+            hint.style.opacity = "0.5";
+            if(callback) callback();
+        }
+    }
+    type();
+}
+
+function revealAbsoluteEnding() {
+    finaleActive = true;
+    
+    document.getElementById('canvasHolder').classList.add('manuscript-finale-active');
+    document.getElementById('counterBadge').textContent = "THE INFINITE SINGULARITY";
+    document.getElementById('hintText').textContent = "The destiny is written, your light remains immortal.";
+    document.getElementById('hintText').style.color = "var(--ink-gold)";
+    document.getElementById('hintText').style.opacity = "1";
+
+    const element = document.getElementById('secretMessage');
+    element.className = "message-text reveal-active"; 
+    element.style.fontSize = "2.3rem";
+    element.style.textShadow = "0 0 35px var(--ink-gold), 0 0 10px #ffffff";
+    element.innerHTML = "وهنا انطوتِ العَشرة.. وبقيتِ أنتِ في عُمقِ هذا المَدى، سِرّاً كونيّاً جميلاً لا ينتهي مَداه. ✨";
+
+    setInterval(() => {
+        explodePoeticGold(window.innerWidth / 2, window.innerHeight * 0.38);
+    }, 1200);
+}
+</script>
+
+</body>
+</html>

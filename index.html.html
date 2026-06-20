@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Litissia 🍓</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@300;400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --strawberry-pink: #ffafcc;
+    --soft-cream: #fff1f2;
+    --gold-glow: #ffe5ec;
+    --text-color: #4a3035;
+    --velvet-deep: #a51c30;
+    --velvet-bright: #c9184a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 30%, #ffb3c1 70%, #ff8fa3 100%);
+    background-size: 300% 300%;
+    animation: pastelWave 12s ease-in-out infinite;
+    position: relative;
+    padding: 20px;
+    cursor: none;
+}
+
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    font-size: 30px;
+    pointer-events: none;
+    z-index: 10005;
+    transform: translate(-10px, -25px);
+    user-select: none;
+    filter: drop-shadow(2px 4px 6px rgba(201, 24, 74, 0.25));
+}
+
+.trail-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10004;
+    font-size: 14px;
+    user-select: none;
+    animation: confettiBurst 0.7s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes confettiBurst {
+    0% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.4) translateY(35px) translateX(var(--drift-x, 0px)) rotate(140deg);
+        opacity: 0;
+    }
+}
+
+@keyframes pastelWave {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.curtain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.curtain-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.curtain-part {
+    width: 50%;
+    height: 100%;
+    position: relative;
+    transition: transform 1.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+    will-change: transform;
+}
+
+.curtain-left {
+    transform: translateX(0);
+}
+
+.curtain-right {
+    transform: translateX(0);
+}
+
+.curtain-panel {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, var(--velvet-deep), var(--velvet-bright));
+    background-size: cover;
+    position: relative;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5);
+}
+
+.curtain-left .curtain-panel {
+    background: linear-gradient(to right, var(--velvet-deep), var(--velvet-bright));
+    border-radius: 0 0 0 100px;
+}
+
+.curtain-right .curtain-panel {
+    background: linear-gradient(to left, var(--velvet-deep), var(--velvet-bright));
+    border-radius: 0 0 100px 0;
+}
+
+.curtain-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 10px;
+    height: 100%;
+    background: linear-gradient(to bottom, #f9d923, #ffc2d1, #f9d923);
+    box-shadow: 0 0 20px rgba(249, 217, 35, 0.8);
+    opacity: 0.8;
+}
+
+.curtain-left .curtain-panel::after {
+    right: -5px;
+}
+
+.curtain-right .curtain-panel::after {
+    left: -5px;
+}
+
+.glitter-particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: glitterFall linear infinite;
+}
+
+.star-particle {
+    position: absolute;
+    color: #fff;
+    font-size: 10px;
+    opacity: 0.6;
+    animation: glitterFall linear infinite;
+}
+
+@keyframes glitterFall {
+    0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+.curtain-lace {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDQwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48cGF0aCBkPSJNMTAwMCA0MEM5NTAgNDAgOTI1IDEwIDkwMCAxMEM4NzUgMTAgODUwIDQwIDgwMCA0MEM3NTAgNDAgNzI1IDEwIDcwMCAxMEM2NzUgMTAgNjUwIDQwIDYwMCA0MEM1NTAgNDAgNTI1IDEwIDUwMCAxMEM0NzUgMTAgNDUwIDQwIDQwMCA0MEMzNTAgNDAgMzI1IDEwIDMwMCAxMEMyNzUgMTAgMjUwIDQwIDIwMCA0MEMxNTAgNDAgMTI1IDEwIDEwMCAxMEM3NSAxMCA1MCA0MCAwIDQwTDAgMEwxMDAwIDBaIiBmaWxsPSIjZmZmMWYyIi8+PC9zdmc+');
+    background-size: 100% 100%;
+    opacity: 0.8;
+}
+
+.curtain-content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10000;
+    transition: opacity 0.8s ease;
+}
+
+.curtain-greeting {
+    color: white;
+    font-family: 'Sacramento', cursive;
+    font-size: 3.5rem;
+    white-space: nowrap;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    animation: textFadeIn 1s ease 0.5s forwards;
+}
+
+.curtain-sub-greeting {
+    color: var(--soft-cream);
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.2rem;
+    margin-top: -10px;
+    opacity: 0;
+    animation: textFadeIn 1s ease 1s forwards;
+}
+
+@keyframes textFadeIn {
+    to { opacity: 1; }
+}
+
+.curtain-overlay.open .curtain-left {
+    transform: translateX(-100%);
+}
+
+.curtain-overlay.open .curtain-right {
+    transform: translateX(100%);
+}
+
+.curtain-overlay.open .curtain-content {
+    opacity: 0;
+}
+
+.curtain-overlay.hidden {
+    display: none;
+}
+
+.container {
+    max-width: 620px;
+    width: 100%;
+    text-align: center;
+    color: var(--text-color);
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 50px 35px;
+    border-radius: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 20px 45px rgba(223, 114, 137, 0.2);
+    position: relative;
+    opacity: 0; 
+    transform: scale(0.8) translateY(30px);
+}
+
+.container.show-card {
+    animation: bounceIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes bounceIn {
+    0% { opacity: 0; transform: scale(0.8) translateY(30px); }
+    70% { transform: scale(1.03) translateY(-5px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2.8rem;
+    color: #ff4d6d;
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+    margin-bottom: 5px;
+}
+
+h2 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.3rem;
+    color: #c9184a;
+    font-weight: 400;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+}
+
+h3 {
+    font-family: 'Fredoka', sans-serif;
+    margin-top: 12px;
+    font-size: 1.4rem;
+    color: #ff758f;
+    background: rgba(255, 255, 255, 0.9);
+    display: inline-block;
+    padding: 6px 22px;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(255, 143, 163, 0.15);
+}
+
+p {
+    margin-top: 25px;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #5c3d42;
+    font-weight: 600;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 16px 50px;
+    border-radius: 50px;
+    text-decoration: none;
+    background: linear-gradient(135deg, #ff758f, #ff4d6d);
+    color: white;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    box-shadow: 0 8px 0px #c9184a, 0 15px 25px rgba(201, 24, 74, 0.25);
+    transition: all 0.2s ease;
+    position: relative;
+    top: 0;
+    cursor: none;
+}
+
+.btn:hover {
+    transform: translateY(2px);
+    box-shadow: 0 6px 0px #c9184a, 0 10px 20px rgba(201, 24, 74, 0.25);
+}
+
+.btn:active {
+    top: 8px;
+    box-shadow: 0 0px 0px #c9184a, 0 5px 10px rgba(201, 24, 74, 0.1);
+}
+
+.sticker {
+    position: absolute;
+    pointer-events: none;
+    z-index: 15;
+    animation: softFloat 4s ease-in-out infinite alternate;
+    filter: drop-shadow(0 5px 10px rgba(223,114,137,0.15));
+}
+.stk-1 { top: -35px; left: -25px; font-size: 3.8rem; }
+.stk-2 { bottom: -30px; right: -25px; font-size: 3.8rem; animation-delay: 1.2s; }
+.stk-3 { top: 20%; right: -45px; font-size: 3rem; animation-delay: 0.6s; }
+.stk-4 { bottom: 20%; left: -45px; font-size: 3rem; animation-delay: 1.8s; }
+
+@keyframes softFloat {
+    0% { transform: translateY(0) scale(1) rotate(-5deg); }
+    100% { transform: translateY(-10px) scale(1.05) rotate(5deg); }
+}
+
+.cloud-element {
+    position: absolute;
+    pointer-events: none;
+    animation: softFall linear infinite;
+    opacity: 0.8;
+    z-index: 5; 
+}
+
+@keyframes softFall {
+    0% {
+        transform: translateY(-10vh) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% { opacity: 0.75; }
+    90% { opacity: 0.75; }
+    100% {
+        transform: translateY(110vh) translateX(50px) rotate(180deg);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="custom-cursor" id="customCursor">🎈</div>
+
+<div class="curtain-overlay" id="curtain">
+    <div class="curtain-content">
+        <div class="curtain-greeting">For My Litissia</div>
+        <div class="curtain-sub-greeting">A SMALL GIFT FROM UR OUSSAMA... 🍒🍓✨</div>
+    </div>
+    <div class="curtain-wrapper">
+        <div class="curtain-part curtain-left">
+            <div class="curtain-panel">
+                <div class="curtain-lace"></div>
+            </div>
+        </div>
+        <div class="curtain-part curtain-right">
+            <div class="curtain-panel">
+                <div class="curtain-lace"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="mainCard">
+    <div class="sticker stk-1">🍓✨</div>
+    <div class="sticker stk-2">🧸🎈</div>
+    <div class="sticker stk-3">☁️🌸</div>
+    <div class="sticker stk-4">🍒💝</div>
+
+    <h1>Happy Birthday my litty 🍒</h1>
+
+    <h2>the day my princess born</h2>
+    <h3>21-juin</h3>
+
+    <p>
+        Every moment with you is special.<br>
+        This little website is a small gift to you from your oussama,<br>
+        it was made with all my huge love<br>
+        to celebrate your birthday and our story together<br>
+        nd we will be togather for the rest of our life nchlh.
+    </p>
+
+    <a href="love.html" class="btn">
+        Start UR Birthday ✨
+    </a>
+</div>
+
+<script>
+const customCursor = document.getElementById('customCursor');
+const confettiEmojis = ["✨", "🎉", "💖", "🌸", "⭐", "🍬"];
+
+window.addEventListener('mousemove', (e) => {
+    customCursor.style.left = e.clientX + 'px';
+    customCursor.style.top = e.clientY + 'px';
+    
+    if (Math.random() > 0.6) {
+        createConfettiTrail(e.clientX, e.clientY);
+    }
+});
+
+window.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        customCursor.style.left = touch.clientX + 'px';
+        customCursor.style.top = touch.clientY + 'px';
+        createConfettiTrail(touch.clientX, touch.clientY);
+    }
+});
+
+function createConfettiTrail(x, y) {
+    const p = document.createElement('div');
+    p.className = 'trail-particle';
+    p.innerText = confettiEmojis[Math.floor(Math.random() * confettiEmojis.length)];
+    
+    const driftX = (Math.random() - 0.5) * 40;
+    p.style.setProperty('--drift-x', `${driftX}px`);
+    
+    p.style.left = x + 'px';
+    p.style.top = (y + 20) + 'px';
+    
+    document.body.appendChild(p);
+    
+    setTimeout(() => {
+        p.remove();
+    }, 700);
+}
+
+const curtain = document.getElementById('curtain');
+const mainCard = document.getElementById('mainCard');
+const leftPanel = document.querySelector('.curtain-left .curtain-panel');
+const rightPanel = document.querySelector('.curtain-right .curtain-panel');
+
+function addCurtainGlitter() {
+    const panels = [leftPanel, rightPanel];
+    const starEmojis = ["⭐", "✨"];
+    
+    panels.forEach(panel => {
+        for(let i = 0; i < 30; i++) {
+            const isStar = Math.random() < 0.2;
+            let particle;
+            
+            if (isStar) {
+                particle = document.createElement("div");
+                particle.classList.add("star-particle");
+                particle.innerHTML = starEmojis[Math.floor(Math.random() * starEmojis.length)];
+            } else {
+                particle = document.createElement("div");
+                particle.classList.add("glitter-particle");
+            }
+
+            particle.style.left = Math.random() * 100 + "%";
+            particle.style.top = Math.random() * -100 + "px"; 
+            particle.style.animationDuration = (4 + Math.random() * 6) + "s";
+            particle.style.animationDelay = (Math.random() * 5) + "s";
+            
+            panel.appendChild(particle);
+        }
+    });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    addCurtainGlitter();
+    
+    setTimeout(() => {
+        curtain.classList.add('open');
+        mainCard.classList.add('show-card');
+        setTimeout(() => {
+            curtain.classList.add('hidden');
+        }, 2000); 
+    }, 2500); 
+});
+
+const cloudThemeElements = ["☁️", "🍓", "🌸", "🤍", "🍒", "🎀", "🧸"];
+
+for(let i = 0; i < 40; i++) {
+    let element = document.createElement("div");
+    
+    element.innerHTML = cloudThemeElements[Math.floor(Math.random() * cloudThemeElements.length)];
+    element.classList.add("cloud-element");
+
+    element.style.left = Math.random() * 100 + "vw";
+    element.style.top = Math.random() * -15 + "vh";
+    element.style.fontSize = (18 + Math.random() * 22) + "px";
+    element.style.animationDuration = (7 + Math.random() * 8) + "s";
+    element.style.animationDelay = (Math.random() * 6) + "s";
+
+    document.body.appendChild(element);
+}
+</script>
+
+</body>
+</html>
